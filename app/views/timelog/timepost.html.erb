@@ -1,0 +1,13 @@
+		<% for i in 0..@total_issues_count-1 %>
+			<li><%= link_to @total_issues_list["issues"][i]["subject"], :onclick => 'openPopup(this)' %></li>
+		<% end %>
+
+		<script type="text/javascript">
+		function openPopup(link)
+		{
+			alert("hi");
+		    link.hide();
+		    window.open("http://localhost:3000/timelog/report",'exam_dialog','toolbar=no,location=no,menubar=no,scrollbars=yes,resizable=no');
+		    #return false;
+		}
+		</script>

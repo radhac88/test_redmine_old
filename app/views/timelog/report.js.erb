@@ -1,0 +1,3 @@
+
+//#$('#div_id').html("<%= escape_javascript(render :partial => 'issues') %>"); 
+$('#div_id').html("<%= escape_javascript(render(:partial => 'issues')).html_safe %>");

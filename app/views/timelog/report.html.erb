@@ -1,0 +1,36 @@
+
+<div id="projects">
+	<% select_tag "projects", options_for_select(@projects), :onchange => "alert(this.value)" %>
+	<% select_tag "projects", options_for_select(@projects), :onchange => "document.location = '/timelog/test/' "  %> 
+	<%= select_tag "projects", options_for_select(@project_ids), :onchange => 'test_call(this.value)',:remote => 'true'  %> 
+		<% for i in 0..@total_issues_count-1 %>
+			<% link_to @total_issues_list["issues"][i]["subject"] %>
+		<% end %>
+		<%#= @project_issues %>
+
+</div>
+
+	<div id = "div_id">
+
+	</div>
+
+
+<script type="text/javascript">
+	function test(value) {  
+  		alert(value);
+	}
+	
+	function test_call(id)
+	{
+		jQuery.ajax({
+		  data: 'id=' + id,
+		  dataType: 'script',
+		  type: 'post',
+		  url: "/timelog/test"
+		});
+	
+	}
+  
+</script>
+
+
