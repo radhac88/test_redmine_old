@@ -1,4 +1,25 @@
+<br/>
+<%= "Issues" %>
 <% for i in 0..@project_issues.length-1 %>
-	<li><%= @project_issues[i] %></li>
+	<li>
+		<%= link_to @project_issues[i], timepost_path, :id => @project_issues[i].to_s, 
+		:onclick => 'send_issue_id(this.value)', :remote => true %>
+	</li>
 <% end %>
 <% @project_issues %>
+
+<script type="text/javascript">
+	function test(value) {  
+  		alert(value);
+	}
+	function send_issue_id(id)
+	{
+		jQuery.ajax({
+		  data: 'id=' + id,
+		  dataType: 'script',
+		  type: 'post',
+		  url: "/timelog/timepost"
+		});
+	}
+  
+</script>

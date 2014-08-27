@@ -1,0 +1,31 @@
+<br/>
+<%= "Log time" %>
+
+<%= form_tag timepost_path do %>
+
+  <table>
+  	<tr>
+      <td><%= label_tag :issue_id %></td>
+      <td><%= text_field_tag :issue_id, @issue_id %><td>
+  	</tr>
+  	<tr>
+      <td><%= label_tag :spent_on %></td>
+      <td><%= text_field_tag :spent_on, @spent_on %></td>
+    </tr>
+    <tr>
+      <td><%= label_tag :hours %></td>
+      <td><%= text_field_tag :hours %></td>
+    </tr>
+    <tr>
+      <td><%= label_tag :comments %></td>
+      <td><%= text_field_tag :comments %></td>
+    </tr>
+    <tr>
+      <td><%= label_tag :activity %></td>
+      <td><%= text_field_tag :activity_id, @activity_id %></td>
+    </tr>
+    <tr>
+      <td><%= submit_tag "Submit", class: "btn btn-large btn-primary" %></td>
+    </tr>
+  </table>
+ <% end %>

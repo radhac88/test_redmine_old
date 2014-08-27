@@ -4,7 +4,11 @@ Rails.application.routes.draw do
   get 'timelog/test', :as => 'timelog'
   post 'timelog/test/:id' => 'timelog#test'
   post 'timelog/test'
-  get 'timelog/timepost'
+  get 'timelog/timepost', :as =>'timepost'
+  post 'timelog/timepost'
+  match '/request' => 'timelog#timepost', via: :post
+  get 'timelog/login'
+  post 'timelog/login'
   #get "form_partial"
 
   # The priority is based upon order of creation: first created -> highest priority.
