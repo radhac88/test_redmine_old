@@ -1,11 +1,6 @@
 <br/>
-<%= "Issues" %>
-<% for i in 0..@project_issues.length-1 %>
-	<li>
-		<%= link_to @project_issues[i], timepost_path, :id => @project_issues[i].to_s, 
-		:onclick => 'send_issue_id(this.value)', :remote => true %>
-	</li>
-<% end %>
+<%= select_tag "issues", options_for_select(@project_issues), :onchange => 'send_issue_id(this.value)', :remote => true, :prompt => "--select issue--" %>
+
 <% @project_issues %>
 
 <script type="text/javascript">
@@ -18,7 +13,7 @@
 		  data: 'id=' + id,
 		  dataType: 'script',
 		  type: 'post',
-		  url: "/timelog/timepost"
+		  url: "/timepost"
 		});
 	}
   

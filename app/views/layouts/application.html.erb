@@ -7,6 +7,11 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+<div>
+	<% if notice %>
+	<p id="notice" class="alert alert-success" ><%= notice %></p>
+	<% end %>
+</div>
 
 <%= yield %>
 

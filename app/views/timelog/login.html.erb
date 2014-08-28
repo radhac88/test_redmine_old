@@ -1,4 +1,5 @@
-<%= form_tag(:controller => "timelog",:action => "login") do %>
+<%#= form_tag(:controller => "timelog",:action => "login") do %>
+<%= form_tag(login_path, method: "post") do %>
 <table>
 <tr>    
     <td><%= "login:" %></td>

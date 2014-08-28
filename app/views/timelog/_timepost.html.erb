@@ -6,7 +6,7 @@
   <table>
   	<tr>
       <td><%= label_tag :issue_id %></td>
-      <td><%= text_field_tag :issue_id, @issue_id %><td>
+      <td><%= text_field_tag :issue_id, @issue_id, :size => "40" %><td>
   	</tr>
   	<tr>
       <td><%= label_tag :spent_on %></td>
@@ -14,11 +14,11 @@
     </tr>
     <tr>
       <td><%= label_tag :hours %></td>
-      <td><%= text_field_tag :hours %></td>
+      <td><%= text_field_tag :hours, @hours %></td>
     </tr>
     <tr>
       <td><%= label_tag :comments %></td>
-      <td><%= text_field_tag :comments %></td>
+      <td><%= text_area_tag :comments, @comments %></td>
     </tr>
     <tr>
       <td><%= label_tag :activity %></td>

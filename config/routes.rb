@@ -1,21 +1,21 @@
 Rails.application.routes.draw do
-  get 'timelog/report'
-  #get 'timelog/test'
-  get 'timelog/test', :as => 'timelog'
-  post 'timelog/test/:id' => 'timelog#test'
-  post 'timelog/test'
-  get 'timelog/timepost', :as =>'timepost'
-  post 'timelog/timepost'
-  match '/request' => 'timelog#timepost', via: :post
-  get 'timelog/login'
-  post 'timelog/login'
+  
+  match '/report' => 'timelog#report', via: :get
+  
+  match 'timelog' => 'timelog#test', via: [:get, :post]
+  
+  match '/timepost' => 'timelog#timepost', via: [:get, :post]
+  
+  match '/login' => 'timelog#login', via: [:get, :post]
+
+  match '/logout' => 'timelog#logout', via: [:get, :post]
   #get "form_partial"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+   root 'timelog#login'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
