@@ -5,8 +5,46 @@ require 'json'
 require 'pp'
 require 'net/http'
 require "uri"
+require 'active_resource'
+
+# Issue model on the client side
+class Issue < ActiveResource::Base
+  self.site = 'http://localhost:4000/'
+  self.user = $username
+  self.password = $password
+end
+class TimeEntry < ActiveResource::Base
+
+  self.include_root_in_json = true
+  self.site = 'http://localhost:4000/'
+  self.user = 'admin'
+  self.password = 'admin'
+end
+
+
 
 before_filter :verify_user, :only => :report
+#before_filter :radha
+
+
+def timeentry_post
+	#time = TimeEntry.new(:issue_id => "1", :hours => "8", :user => "admin", :activity_id => "9", :spent_on => Date.today, :comments => "Comment from REST API")
+	time = TimeEntry.new(:issue_id => params[:issue_id], 
+   		 	:hours => params[:hours], 
+   		 	:user => $username,
+   		 	:activity_id => params[:activity_id], 
+   		 	:spent_on => Date.today, 
+   		 	:comments => params[:comments])
+	if time.save
+		p "****"
+	  puts time.id
+	else
+		p "-----"
+	  pp time.errors
+	end
+
+end
+
 
   def verify_user
   	if $username.nil? || $password.nil?
@@ -37,16 +75,11 @@ before_filter :verify_user, :only => :report
   	open('http://172.16.0.128:4000/projects.json', http_basic_authentication: [$username, $password]) do |f|
   		@projects = f.read
 	end
-	# open('http://172.16.0.131/redmine/projects.json', http_basic_authentication: [$username, $password]) do |f|
- #  		@projects = f.read
-	# end
 
 	@projects_list = JSON.parse(@projects)
 	@projects_count = @projects_list["total_count"]
 	#pp @projects_list
 	@projects =[]
-	
-	#@h = {:id => 'IndianGuru', :name => 'Marathi'} 
 	
 	@project_ids = []
 	for i in 0..@projects_count-1
@@ -68,33 +101,18 @@ before_filter :verify_user, :only => :report
 		
 		rescue OpenURI::HTTPError => e
 			redirect_to login_url, :notice=>"Please Login to continue"
-  			# respond_to do |format| 
-    	# 		format.html {redirect_to login_url, :notice=>"Please Login to continue"}
-  			# end
-  		end
-#hash----------------------------------------------------------------------
-		# @my_hash = Hash.new 
-		# for i in 0..@projects_count-1 do
-		#   @my_hash.keys[] << @projects_list["projects"][i]["identifier"]     # option 1 using object reference
-		#   @my_hash.values[] << @projects_list["projects"][i]["name"]  # option 2 using object id
-		# end
-		# p @my_hash
-		
-#--------------------------------------------------------------------------		
+		end
 	end
 
 	def test
 		begin
-
 		name = params[:id]
 		ur ="http://172.16.0.128:4000/projects/#{name}/issues.json"
-		#ur ="http://172.16.0.131/redmine/projects/#{name}/issues.json"
 		open(ur,http_basic_authentication: [$username, $password]) do |f|
   			@issues = f.read
 		end
 		@issues_list = JSON.parse(@issues)
 		@issues_count = @issues_list["total_count"]
-		
 		
 		@project_issues = Array.new()
 		for i in 0..@issues_count-1
@@ -102,56 +120,57 @@ before_filter :verify_user, :only => :report
 			@project_issues << @issue_subject
 		end
 		p @project_issues
-		#redirect_to ur
 		respond_to do |format| 
-        #format.html {render :partial => "issues"}
         format.js 
       	end
-		#redirect_to 'http://www.google.com'
 		rescue OpenURI::HTTPError => e
-
 		respond_to do |format| 
     		format.html {redirect_to login_url, :notice=>"Please Login to continue"}
   		end
-
   		end
-
 	end
-
+	# class TimeEntry < ActiveResource::Base
+	# 	self.include_root_in_json = true
+	# 	self.site = 'http://172.16.0.128:4000/'
+	# 	self.user = $username
+	# 	self.password = $password
+	# 	#self.format = :xml
+ #  	end
 	def timepost
-		begin
+		# begin
 
-		time_entries_url ="http://172.16.0.128:4000/time_entries.json"
-		#time_entries_url ="http://172.16.0.131/redmine/time_entries.json"
-		open(time_entries_url,http_basic_authentication: [$username, $password]) do |f|
-  			@time_entries = f.read
-		end
-		@total_time_entries_list = JSON.parse(@time_entries)
-		@total_time_entries_count = @total_time_entries_list["total_count"]
+		# time_entries_url ="http://172.16.0.128:4000/time_entries.json"
+		# #time_entries_url ="http://172.16.0.131/redmine/time_entries.json"
+		# open(time_entries_url,http_basic_authentication: [$username, $password]) do |f|
+  # 			@time_entries = f.read
+		# end
+		# @total_time_entries_list = JSON.parse(@time_entries)
+		# @total_time_entries_count = @total_time_entries_list["total_count"]
 		
-		#@issue_id = params[:id]
-		@spent_on = Date.today
-		#@hours = 5
-		#@activity_id = 9
-		#@comments = "Entered via REST API"
-
-		
-
-		# @total_time_entries_list["time_entries"][0]["issue"]["id"] << params[:issue_id]
-  #   	@total_time_entries_list["time_entries"][0]["spent_on"] << params[:spent_on]
-  #   	@total_time_entries_list["time_entries"][0]["hours"] << params[:hours]
-  #   	@total_time_entries_list["time_entries"][0]["comments"] << params[:comments]
-  #   	@total_time_entries_list["time_entries"][0]["activity_id"] << params[:activity_id]
-
-		rescue OpenURI::HTTPError => e
-  			respond_to do |format| 
-    			format.html {redirect_to login_url, :notice=>"You are signed out. Please Login to continue"}
-  			end
-
-  		end
-        
-    	
-
+		# @spent_on = Date.today
+		# rescue OpenURI::HTTPError => e
+  # 			respond_to do |format| 
+  #   			format.html {redirect_to login_url, :notice=>"You are signed out. Please Login to continue"}
+  # 			end
+  # 		end
+  		#issue_id = params[:id]
+  #  		 @t = TimeEntry.new(:issue_id => params[:issue_id], 
+  #  		 	:hours => params[:hours], 
+  #  		 	:user => $username,
+  #  		 	:activity_id => params[:activity_id], 
+  #  		 	:spent_on => params[:spent_on], 
+  #  		 	:comments => params[:comments])
+  #  		 if @t.save
+		#   puts @t.id
+		# else
+		#   pp @t.errors
+		# end
+		# time = TimeEntry.new(:issue_id => "1", :hours => "8", :user => "admin", :activity_id => "9", :spent_on => Date.today, :comments => "Comment from REST API")
+		# if time.save
+		#   puts time.id
+		# else
+		#   pp time.errors
+		# end
 	end
 	def web_post
 		url = URI.parse('http://172.16.0.128:4000/time_entries.json')

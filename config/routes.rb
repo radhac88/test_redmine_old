@@ -1,10 +1,16 @@
 Rails.application.routes.draw do
   
+  get 'timelogger/login'
+
+  get 'timelogger/timepost'
+
   match '/report' => 'timelog#report', via: :get
   
   match 'timelog' => 'timelog#test', via: [:get, :post]
   
   match '/timepost' => 'timelog#timepost', via: [:get, :post]
+
+  match '/timentrypost' => 'timelog#timeentry_post', via: [:get, :post]
   
   match '/login' => 'timelog#login', via: [:get, :post]
 
