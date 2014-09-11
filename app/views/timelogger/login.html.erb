@@ -1,2 +1,15 @@
-<h1>Timelogger#login</h1>
-<p>Find me in app/views/timelogger/login.html.erb</p>
+<%= form_tag(login_path, method: "post") do %>
+<table>
+<tr>    
+    <td><%= "login:" %></td>
+    <td><%= text_field_tag :user_name %><td>
+</tr>
+<tr>
+    <td><%= "Password:" %></td>
+    <td><%= password_field_tag :password %><td>
+</tr>
+<tr>    
+    <td><%= submit_tag "Submit" %></td>
+</tr>
+</table>
+<% end %>

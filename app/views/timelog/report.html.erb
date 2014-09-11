@@ -5,23 +5,21 @@
 <br/><br/>
 
 <div id="projects">
-	<% select_tag "projects", options_for_select(@projects), :onchange => "alert(this.value)" %> 
-	<%= select_tag "projects", options_for_select(@project_ids), :onchange => 'send_project_id(this.value)', :prompt => "--select project--", :remote => 'true'  %> 
-		
+	<%= select_tag "projects", options_from_collection_for_select(@projects, "identifier", "name"), 
+	:onchange => 'send_project_id(this.value)', :prompt => "Please Select Project", :remote => 'true' %>
 </div>
 
-	<div id = "div_id">
+<div id = "div_id">
 
-	</div>
-	<div id = "timepost">
-	</div>
+</div>
+<div id = "timepost">
+</div>
 
 
 <script type="text/javascript">
 	function test(value) {  
   		alert(value);
 	}
-	
 	function send_project_id(id)
 	{
 
@@ -31,9 +29,7 @@
 		  type: 'post',
 		  url: "/timelog"
 		});
-	
 	}
-  
 </script>
 
 

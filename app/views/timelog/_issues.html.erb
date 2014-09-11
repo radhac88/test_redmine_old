@@ -1,9 +1,14 @@
 <br/>
-<%= select_tag "issues", options_for_select(@project_issues), :onchange => 'send_issue_id(this.value)', :remote => true, :prompt => "--select issue--" %>
+<% select_tag "issues", options_for_select(@project_issues), :onchange => 'send_issue_id(this.value)', :remote => true, :prompt => "--select issue--" %>
+
+<%= collection_select("id", "subject", @hash, :first, :last, {:include_blank => "Please Select Issue"},
+ {:remote => true, :onchange => 'send_issue_id(this.value)'}) %>
+
 
 <% @project_issues %>
 
 <script type="text/javascript">
+	
 	function test(value) {  
   		alert(value);
 	}

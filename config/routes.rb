@@ -1,9 +1,5 @@
 Rails.application.routes.draw do
   
-  get 'timelogger/login'
-
-  get 'timelogger/timepost'
-
   match '/report' => 'timelog#report', via: :get
   
   match 'timelog' => 'timelog#test', via: [:get, :post]
@@ -12,16 +8,16 @@ Rails.application.routes.draw do
 
   match '/timentrypost' => 'timelog#timeentry_post', via: [:get, :post]
   
-  match '/login' => 'timelog#login', via: [:get, :post]
+  match '/login' => 'timelogger#login', via: [:get, :post]
 
-  match '/logout' => 'timelog#logout', via: [:get, :post]
+  match '/logout' => 'timelogger#logout', via: [:get, :post]
   #get "form_partial"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-   root 'timelog#login'
+   root 'timelogger#login'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

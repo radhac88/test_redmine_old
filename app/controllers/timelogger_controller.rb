@@ -7,40 +7,33 @@ require 'net/http'
 require "uri"
 require 'active_resource'
 
-  class TimeEntry < ActiveResource::Base
-	self.include_root_in_json = true
-	self.site = 'http://localhost:4000/'
-	self.user = 'admin'
-	self.password = 'admin'
-	#self.format = :xml
-  end
-  class Issue < ActiveResource::Base
-  	self.include_root_in_json = true
-	self.site = 'http://localhost:4000/'
-	self.user = 'admin'
-	self.password = 'admin'
-	#self.format = :xml
-  end
-  class Project < ActiveResource::Base
-  	self.include_root_in_json = true
-	self.format = :xml
-	self.site = 'http://localhost:4000/'
-	self.user = 'admin'
-	self.password = 'admin'
-  end
-  
-  project = Project.find(:all)
-  puts "***********"
-  puts project.first.name
-  def login
+#before_filter :verify_user
+  $username=""
+  $password=""
+  def verify_user
+  	if $username.nil? || $password.nil?
+  		redirect_to login_url, :notice=>"Please Login to continue"
+  	else
+  		redirect_to report_url
+  	end
   end
 
-  def timepost
-  	@time = TimeEntry.new(:issue_id => "1", :hours => "8", :user => "admin", :activity_id => "9", :spent_on => Date.today, :comments => "Comment from REST API")
-	if @time.save
-	  puts time.id
-	else
-	  pp @time.errors
-	end
+  def login
+  	$username = nil
+  	$password = nil
+  	
+  	$username = params[:user_name]
+  	$password = params[:password]
+  	if $username.nil? || $password.nil?
+  		#redirect_to login_url, :notice=>"Please Login to continue"
+  	else
+  		redirect_to report_url
+  	end
+  end	
+  def logout
+  	$username = nil
+  	$password = nil
+  	redirect_to login_url
   end
+
 end

@@ -1,19 +1,21 @@
 <br/>
 <%= "Log time" %>
-
+<% my_date = Date.today %>
 <%= form_tag timentrypost_path do %>
 
   <table>
   	<tr>
-      <td><%= label_tag :issue_id %></td>
-      <td><%= text_field_tag :issue_id, @issue_id %><td>
+      <td><%= label_tag :issue_id %><%= "*" %></td>
+      <td><%= text_field_tag :issue_id, @issue_id, :readonly => true %><td>
   	</tr>
   	<tr>
-      <td><%= label_tag :spent_on %></td>
-      <td><%= text_field_tag :spent_on, @spent_on %></td>
+      <td><%= label_tag :spent_on %><%= "*" %></td>
+      <td><%= date_select(:spent_on, "spent_on") %></td>
+      <td><% text_field_tag :spent_on, @spent_on %></td>
+
     </tr>
     <tr>
-      <td><%= label_tag :hours %></td>
+      <td><%= label_tag :hours %><%= "*" %></td>
       <td><%= text_field_tag :hours, @hours %></td>
     </tr>
     <tr>
@@ -21,7 +23,7 @@
       <td><%= text_area_tag :comments, @comments %></td>
     </tr>
     <tr>
-      <td><%= label_tag :activity %></td>
+      <td><%= label_tag :activity %><%= "*" %></td>
       <td><%= text_field_tag :activity_id, @activity_id %></td>
     </tr>
     <tr>
